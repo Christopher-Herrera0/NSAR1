@@ -8,12 +8,12 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {-5, -6, -7, -8},  // Left Chassis Ports (negative port will reverse it!)
-    {11, 15, 16, 17},  // Right Chassis Ports (negative port will reverse it!)
+    {-5, -4},  // Left Chassis Ports (negative port will reverse it!)
+    {2, 1},  // Right Chassis Ports (negative port will reverse it!)
 
-    {20, 21},  // IMU Port
-    4.125,     // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-    420.0);    // Wheel RPM = cartridge * (motor gear / wheel gear)
+    3,  // IMU Port
+    2.75,     // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
+    360);    // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Uncomment the trackers you're using here!
 // - `8` and `9` are smart ports (making these negative will reverse the sensor)
@@ -23,8 +23,8 @@ ez::Drive chassis(
 // ez::tracking_wheel horiz_tracker(8, 2.75, 4.0);  // This tracking wheel is perpendicular to the drive wheels
 // ez::tracking_wheel vert_tracker(9, 2.75, 4.0);   // This tracking wheel is parallel to the drive wheels
 
-ez::tracking_wheel left_tracker({'A', 'B'}, 2.75, 4.0);
-ez::tracking_wheel right_tracker({'C', 'D'}, 2.75, 4.0);
+//ez::tracking_wheel left_tracker({'A', 'B'}, 2.75, 4.0);
+//ez::tracking_wheel right_tracker({'C', 'D'}, 2.75, 4.0);
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -46,8 +46,8 @@ void initialize() {
   //  - ignore this if you aren't using a vertical tracker
   // chassis.odom_tracker_left_set(&vert_tracker);
 
-  chassis.odom_tracker_left_set(&left_tracker);
-  chassis.odom_tracker_right_set(&right_tracker);
+  //chassis.odom_tracker_left_set(&left_tracker);
+  //chassis.odom_tracker_right_set(&right_tracker);
 
   // Configure your chassis controls
   chassis.opcontrol_curve_buttons_toggle(true);   // Enables modifying the controller curve with buttons on the joysticks
@@ -275,12 +275,47 @@ void opcontrol() {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
 
-    chassis.opcontrol_tank();  // Tank control
-    // chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
+    // chassis.opcontrol_tank();  // Tank control
+    chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
 
+    // Button Controls
+    // Intaking Pins:
+    if (master.get_digital(DIGITAL_R2)){
+      intake.move(127);
+      claw.move(127);
+    }
+    else if (master.get_digital(DIGITAL_R1)){
+      intake.move(-127);
+      claw.move(-127);
+    }
+    else {
+      intake.move(0);
+      claw.move(0);
+    }
+
+    // Lift
+
+    if (master.get_digital(DIGITAL_L1)){
+      lift.move(127);
+    } else if (master.get_digital(DIGITAL_L2)){
+      lift.move(0);
+    } else {
+      lift.move(0);
+    }
+
+    // Wrist Movement
+
+    if (master.get_digital(DIGITAL_Y)){
+      wrist.move(127);
+    } else if (master.get_digital(DIGITAL_B)){
+      wrist.move(-127);
+    } else {
+      wrist.move(0);
+    }
+    
     // . . .
     // Put more user control code here!
     // . . .
