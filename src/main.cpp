@@ -274,6 +274,7 @@ void opcontrol() {
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
+    lift.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 
     // chassis.opcontrol_tank();  // Tank control
     chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
@@ -301,7 +302,7 @@ void opcontrol() {
     if (master.get_digital(DIGITAL_L1)){
       lift.move(127);
     } else if (master.get_digital(DIGITAL_L2)){
-      lift.move(0);
+      lift.move(-127);
     } else {
       lift.move(0);
     }
