@@ -274,8 +274,9 @@ void opcontrol() {
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
-    lift.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
-    wrist.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    claw.set_brake_mode(MOTOR_BRAKE_BRAKE);
+    lift.set_brake_mode(MOTOR_BRAKE_BRAKE);
+    wrist.set_brake_mode(MOTOR_BRAKE_BRAKE);
 
     // chassis.opcontrol_tank();  // Tank control
     chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
@@ -321,10 +322,6 @@ void opcontrol() {
     // . . .
     // Put more user control code here!
     // . . .
-
-    claw.set_brake_mode(MOTOR_BRAKE_BRAKE);
-    lift.set_brake_mode(MOTOR_BRAKE_BRAKE);
-    wrist.set_brake_mode(MOTOR_BRAKE_BRAKE);
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
