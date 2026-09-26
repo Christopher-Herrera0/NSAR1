@@ -10,7 +10,7 @@ extern ez::Drive chassis;
 // inline pros::Motor intake(1);
 // inline pros::adi::DigitalIn limit_switch('A');
 
-inline pros::MotorGroup lift({-10, 20});
+inline pros::MotorGroup lift({-18, 20});
 inline pros::Motor intake(19);
 inline pros::Motor wrist(15);
-inline pros::Motor claw(-18);
+inline pros::Motor claw(-11);

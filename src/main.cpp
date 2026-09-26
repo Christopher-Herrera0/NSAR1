@@ -321,6 +321,10 @@ void opcontrol() {
     // Put more user control code here!
     // . . .
 
+    claw.set_brake_mode(MOTOR_BRAKE_BRAKE);
+    lift.set_brake_mode(MOTOR_BRAKE_BRAKE);
+    wrist.set_brake_mode(MOTOR_BRAKE_BRAKE);
+
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }
