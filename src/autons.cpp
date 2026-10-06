@@ -48,6 +48,58 @@ void default_constants() {
   chassis.pid_angle_behavior_set(ez::shortest);  // Changes the default behavior for turning, this defaults it to the shortest path there
 }
 
+
+void match_red_auton() {
+
+  wrist.move_absolute(1160, 127);
+  
+  chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, SWING_SPEED, 8);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-1_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  claw.move(-60);
+
+  pros::delay(500);
+
+  claw.move(0);
+
+  chassis.pid_swing_set(ez::LEFT_SWING, -90_deg, 85, 0);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(45_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-135_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  wrist.move_absolute(1300, 127);
+
+  chassis.pid_drive_set(-8_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  claw.move(127);
+
+  wrist.move_absolute(700, 127);
+
+  chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  wrist.move_absolute(350, 127);
+
+  pros::delay(800);
+
+  claw.move(0);
+
+  pros::delay(200);
+
+  wrist.move_absolute(1630, 127);
+
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+}
 ///
 // Drive Example
 ///

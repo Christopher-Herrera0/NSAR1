@@ -63,6 +63,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+      {"Red Side auton\n\n Performs the auton on the red side", match_red_auton},
       {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
@@ -310,6 +311,9 @@ void opcontrol() {
       lift.move(0);
     }
 
+    if (master.get_digital(DIGITAL_RIGHT)){
+      claw.move(-60);
+    }
     // Wrist Movement
 
     if (master.get_digital(DIGITAL_Y)){
