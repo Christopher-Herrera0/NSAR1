@@ -53,16 +53,16 @@ void match_red_auton() {
 
 
   chassis.pid_drive_set(-10_in, 127, true);
-  chassis.pid_wait();
+  pros::delay(800);
 
   chassis.pid_drive_set(14_in, 127, true);
-  chassis.pid_wait();
+  pros::delay(800);
 
   chassis.pid_drive_set(-10_in, 127, true);
-  chassis.pid_wait();
+  pros::delay(800);
 
   chassis.pid_drive_set(14_in, 127, true);
-  chassis.pid_wait();
+  pros::delay(800);
 
   wrist.move_absolute(1160, 127);
 /*
@@ -76,28 +76,43 @@ void match_red_auton() {
   chassis.pid_wait();
 */
 
-  chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, 95, 15);
+  chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, 110, 15);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(-5_in, 127, true);
+  chassis.pid_drive_set(-4_in, 127, true);
   chassis.pid_wait();
 
-  claw.move(-40);
+  claw.move(-30);
 
-  pros::delay(500);
+  pros::delay(800);
 
   claw.move(0);
+/*
+  chassis.pid_drive_set(5_in, 127, true);
+  pros::delay(100);
 
-  chassis.pid_swing_set(ez::LEFT_SWING, -90_deg, 80, 0);
+  chassis.pid_turn_set(180_deg, TURN_SPEED);
+  pros::delay(400);
+
+  chassis.pid_drive_set(7_in, 127, true);
+  pros::delay(800);
+
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  pros::delay(400);
+*/
+
+
+
+  chassis.pid_swing_set(ez::LEFT_SWING, -90_deg, 90, -127);
   chassis.pid_wait();
 
   chassis.pid_drive_set(45_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 
-  chassis.pid_turn_set(-135_deg, TURN_SPEED);
+  chassis.pid_turn_set(-128_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  wrist.move_absolute(1600, 127);
+  wrist.move_absolute(1500, 127);
 
   chassis.pid_drive_set(-6.5_in, DRIVE_SPEED, true);
   chassis.pid_wait();
@@ -119,10 +134,29 @@ void match_red_auton() {
 
   wrist.move_absolute(1630, 127);
 
-  chassis.pid_turn_set(-102_deg, TURN_SPEED);
+  chassis.pid_turn_set(-98_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(-17.5_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-11_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  wrist.move_absolute(800, 127);
+
+  chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  claw.move(-127);
+
+  lift.move(-127);
+
+  pros::delay(500);
+
+  lift.move(0);
+
+  wrist.move_absolute(2000, 127);
+
+/*
+  chassis.pid_drive_set(-12_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 
   wrist.move_absolute(500, 127);
@@ -137,8 +171,9 @@ void match_red_auton() {
 
   claw.move(0);
 
-  chassis.pid_drive_set(-6_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-8_in, DRIVE_SPEED, true);
   chassis.pid_wait();
+*/
 }
 ///
 // Drive Example
