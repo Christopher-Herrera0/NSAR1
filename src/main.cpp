@@ -317,9 +317,9 @@ void opcontrol() {
     // Wrist Movement
 
     if (master.get_digital(DIGITAL_Y)){
-      wrist.move(127);
-    } else if (master.get_digital(DIGITAL_B)){
       wrist.move(-127);
+    } else if (master.get_digital(DIGITAL_B)){
+      wrist.move(127);
     } else {
       wrist.move(0);
     }
