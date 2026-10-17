@@ -2,7 +2,8 @@
 
 void default_constants();
 
-void match_red_auton();
+void match_right_auton();
+void match_left_auton();
 void drive_example();
 void turn_example();
 void drive_and_turn();

@@ -63,7 +63,8 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"Red Side auton\n\n Performs the auton on the red side", match_red_auton},
+      {"Right Side auton\n\n Performs the auton on the Right side", match_right_auton},
+      {"Left Side auton\n\n Performs the auton on the Left side", match_left_auton},
       {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
