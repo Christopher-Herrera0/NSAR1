@@ -1,4 +1,5 @@
 #include "main.h"
+#include "cchs_extras.hpp"
 
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
@@ -36,6 +37,13 @@ void initialize() {
   // Print our branding over your terminal :D
   ez::ez_template_print();
   pros::delay(500);  // Stop the user from doing anything while legacy ports configure
+
+
+  lift.set_zero_position_all(0);
+  wrist.set_zero_position(0);
+
+  pros::Task cascade_reset_task(cascade_reset, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "My Task");
+
 
   // Look at your horizontal tracking wheel and decide if it's in front of the midline of your robot or behind it
   //  - change `back` to `front` if the tracking wheel is in front of the midline
@@ -272,6 +280,7 @@ void ez_template_extras() {
  */
 void opcontrol() {
   // This is preference to what you like to drive on
+  printf("Hi!");
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
@@ -302,27 +311,30 @@ void opcontrol() {
       claw.move(0);
     }
 
-    // Lift
-
-    if (master.get_digital(DIGITAL_L1)){
-      lift.move(127);
-    } else if (master.get_digital(DIGITAL_L2)){
-      lift.move(-127);
-    } else {
-      lift.move(0);
-    }
-
-    if (master.get_digital(DIGITAL_RIGHT)){
+    if (master.get_digital(DIGITAL_DOWN)){
       claw.move(-60);
+      printf("Pressed...\n");
     }
-    // Wrist Movement
 
-    if (master.get_digital(DIGITAL_Y)){
-      wrist.move(-127);
-    } else if (master.get_digital(DIGITAL_B)){
-      wrist.move(127);
-    } else {
-      wrist.move(0);
+    if (!cascade_resetting) {
+      if (master.get_digital(DIGITAL_L1)){
+        lift.move(127);
+      } else if (master.get_digital(DIGITAL_L2)){
+        lift.move(-127);
+      } else {
+        lift.move(0);
+      }
+    }
+
+    // Wrist Movement
+    if (!cascade_resetting) {
+      if (master.get_digital(DIGITAL_Y)){
+        wrist.move(127);
+      } else if (master.get_digital(DIGITAL_B)){
+        wrist.move(-127);
+      } else {
+        wrist.move(0);
+      }
     }
     
     // . . .
