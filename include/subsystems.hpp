@@ -19,4 +19,3 @@ inline pros::Distance front(8);
 inline pros::Distance left(17);
 inline pros::Distance right(6);
 inline pros::Distance back(10);
-

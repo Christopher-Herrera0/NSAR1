@@ -280,7 +280,6 @@ void ez_template_extras() {
  */
 void opcontrol() {
   // This is preference to what you like to drive on
-  printf("Hi!");
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
 
   while (true) {
@@ -336,10 +335,6 @@ void opcontrol() {
         wrist.move(0);
       }
     }
-    
-    // . . .
-    // Put more user control code here!
-    // . . .
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
