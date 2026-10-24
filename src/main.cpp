@@ -42,7 +42,9 @@ void initialize() {
   lift.set_zero_position_all(0);
   wrist.set_zero_position(0);
 
-  pros::Task cascade_reset_task(cascade_reset, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "My Task");
+  pros::Task brain_log_task(brain_log, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Distance Task");
+  pros::Task cascade_reset_task(cascade_reset, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Cascade Reset Task");
+  pros::Task intake_antijam_task(intake_antijam,TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Antijam Task");
 
 
   // Look at your horizontal tracking wheel and decide if it's in front of the midline of your robot or behind it
@@ -297,22 +299,19 @@ void opcontrol() {
 
     // Button Controls
     // Intaking Pins:
-    if (master.get_digital(DIGITAL_R2)){
-      intake.move(127);
-      claw.move(127);
-    }
-    else if (master.get_digital(DIGITAL_R1)){
-      intake.move(-127);
-      claw.move(-127);
-    }
-    else {
-      intake.move(0);
-      claw.move(0);
-    }
-
-    if (master.get_digital(DIGITAL_DOWN)){
-      claw.move(-60);
-      printf("Pressed...\n");
+    if (!intake_jammed){
+      if (master.get_digital(DIGITAL_R2)){
+        intake.move(127);
+        claw.move(127);
+      }
+      else if (master.get_digital(DIGITAL_R1)){
+        intake.move(-127);
+        claw.move(-127);
+      }
+      else {
+        intake.move(0);
+        claw.move(0);
+      }
     }
 
     if (!cascade_resetting) {
