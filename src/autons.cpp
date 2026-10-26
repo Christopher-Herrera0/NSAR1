@@ -235,6 +235,48 @@ void match_left_auton() {
 
 }
 
+void auton_skills() {
+  // The first parameter is target inches
+  // The second parameter is max speed the robot will drive at
+  // The third parameter is a boolean (true or false) for enabling/disabling a slew at the start of drive motions
+  // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
+
+  wrist.tare_position();
+
+
+  chassis.pid_drive_set(-5_in, 127, true);
+  pros::delay(800);
+
+  chassis.pid_drive_set(8_in, 127, true);
+  pros::delay(800);
+
+  chassis.pid_drive_set(-5_in, 127, true);
+  pros::delay(800);
+
+  chassis.pid_drive_set(8_in, 127, true);
+  pros::delay(800);
+
+  wrist.move_absolute(1160, 127);
+
+  chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, 110, 12);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-2_in, 127, true);
+  chassis.pid_wait();
+
+  claw.move(-30);
+
+  pros::delay(800);
+
+  claw.move(0);
+
+  chassis.pid_swing_set(ez::LEFT_SWING, -90_deg, 90, -127);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(42_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+}
+
 ///
 // Drive Example
 ///

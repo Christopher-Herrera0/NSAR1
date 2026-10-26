@@ -73,6 +73,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+      {"Skills Auton\n\n Performs the auton for skills", auton_skills},
       {"Right Side auton\n\n Performs the auton on the Right side", match_right_auton},
       {"Left Side auton\n\n Performs the auton on the Left side", match_left_auton},
       {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
@@ -80,7 +81,6 @@ void initialize() {
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
       {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
-      
       {"Motion Chaining\n\nDrive forward, turn, and come back, but blend everything together :D", motion_chaining},
       {"Combine all 3 movements", combining_movements},
       {"Interference\n\nAfter driving forward, robot performs differently if interfered or not", interfered_example},
