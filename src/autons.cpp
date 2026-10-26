@@ -68,7 +68,7 @@ void match_right_auton() {
 
   wrist.move_absolute(1160, 127);
 
-  chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, 110, 8);
+  chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, 110, 12);
   chassis.pid_wait();
 
   chassis.pid_drive_set(-2_in, 127, true);
@@ -83,7 +83,7 @@ void match_right_auton() {
   chassis.pid_swing_set(ez::LEFT_SWING, -90_deg, 90, -127);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(45_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(42_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 
   chassis.pid_turn_set(-128_deg, TURN_SPEED);
@@ -119,7 +119,7 @@ void match_right_auton() {
 
   wrist.move_absolute(800, 127);
 
-  chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-6.5_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 
   lift.move(-127);
@@ -131,6 +131,7 @@ void match_right_auton() {
   lift.move(0);
 
   wrist.move_absolute(2000, 127);
+
 }
 
 void match_left_auton() {
@@ -141,9 +142,14 @@ void match_left_auton() {
 
   wrist.tare_position();
 
+  claw.move(0);
 
   chassis.pid_drive_set(-5_in, 127, true);
   pros::delay(800);
+
+  if (claw.get_actual_velocity() > 0){
+    claw.move(0);
+  }
 
   chassis.pid_drive_set(8_in, 127, true);
   pros::delay(800);
@@ -156,7 +162,7 @@ void match_left_auton() {
 
   wrist.move_absolute(1140, 127);
 
-  chassis.pid_swing_set(ez::LEFT_SWING, -90_deg, 110, 8);
+  chassis.pid_swing_set(ez::LEFT_SWING, -90_deg, 110, 9);
   chassis.pid_wait();
 
   chassis.pid_drive_set(-2_in, 127, true);
@@ -168,10 +174,17 @@ void match_left_auton() {
 
   claw.move(0);
 
-  chassis.pid_swing_set(ez::LEFT_SWING, 90_deg, 90, -127);
+  chassis.pid_drive_set(3_in, 127, true);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(36.5_in, DRIVE_SPEED, true);
+  wrist.move_absolute(2000, 127);
+
+  chassis.pid_swing_set(ez::LEFT_SWING, 90_deg, 110, -15, true);
+  chassis.pid_wait();
+
+  std::cout << "Heading: \n" << chassis.imu->get_heading() << std::endl;
+
+  chassis.pid_drive_set(45_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 
   chassis.pid_turn_set(38_deg, TURN_SPEED);
@@ -199,15 +212,15 @@ void match_left_auton() {
 
   wrist.move_absolute(1630, 127);
 
-  chassis.pid_turn_set(78_deg, TURN_SPEED);
+  chassis.pid_turn_set(80_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(-9_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 
   wrist.move_absolute(800, 127);
 
-  chassis.pid_drive_set(-5_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-7.5_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 
   lift.move(-127);
@@ -218,8 +231,7 @@ void match_left_auton() {
 
   lift.move(0);
 
-  wrist.move_absolute(2000, 127);
-
+  wrist.move_absolute(2500, 127);
 
 }
 
