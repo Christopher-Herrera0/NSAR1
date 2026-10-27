@@ -1,5 +1,6 @@
 #include "main.h"
 #include "EZ-Template/api.hpp"
+#include "subsystems.hpp"
 
 volatile bool cascade_resetting = false;
 volatile bool intake_jammed = false;
@@ -49,7 +50,7 @@ void intake_antijam(){
 void stack_action(){
     double targetGoalDistance = 400; // Change 400 to whatever distance away from goal is ideal IN MILIMETERS
     double wristHorizPos = 400; // Change 400 to however many revs is perfectly horizontal IN REVOLUTIONS
-    double bansheeReading; // For use in loops below
+    double bansheeReading = 0; // For use in loops below
     while (true){
         if (master.get_digital_new_press(DIGITAL_Y)){
             scoring_block = true;
@@ -65,7 +66,7 @@ void stack_action(){
                 bansheeReading = banshee_distance.get_distance();
                 lift.move(127); // Reverse if necessary, not sure if pos or neg 127 makes lift go up.
                 while ((bansheeReading >= bansheeReading - 10) && (bansheeReading <= bansheeReading + 10)){
-                    pros::delay(2);
+                    pros::delay(10);
                 }
                 
             }
