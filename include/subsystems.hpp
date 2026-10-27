@@ -19,3 +19,4 @@ inline pros::Distance left_distance(17);
 inline pros::Distance right_distance(6);
 inline pros::Distance back_distance(10);
 inline pros::Distance goal_distance(16);
+inline pros::Distance banshee_distance(15);

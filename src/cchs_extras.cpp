@@ -3,6 +3,7 @@
 
 volatile bool cascade_resetting = false;
 volatile bool intake_jammed = false;
+volatile bool scoring_block = false;
 
 void cascade_reset() {
     while (true) {
@@ -42,5 +43,32 @@ void intake_antijam(){
             intake_jammed = false;
         }
         pros::delay(10);
+    }
+}
+
+void stack_action(){
+    double targetGoalDistance = 400; // Change 400 to whatever distance away from goal is ideal IN MILIMETERS
+    double wristHorizPos = 400; // Change 400 to however many revs is perfectly horizontal IN REVOLUTIONS
+    double bansheeReading; // For use in loops below
+    while (true){
+        if (master.get_digital_new_press(DIGITAL_Y)){
+            scoring_block = true;
+            if (goal_distance.get_distance() > 1000){
+                master.rumble("_._");
+                scoring_block = false;
+                break;
+            } else {
+                double distanceTargetError = (targetGoalDistance - goal_distance.get_distance());
+                chassis.pid_drive_set((distanceTargetError * okapi::millimeter), 127);
+                chassis.pid_wait();
+                wrist.move_absolute(wristHorizPos, 127);
+                bansheeReading = banshee_distance.get_distance();
+                lift.move(127); // Reverse if necessary, not sure if pos or neg 127 makes lift go up.
+                while ((bansheeReading >= bansheeReading - 10) && (bansheeReading <= bansheeReading + 10)){
+                    pros::delay(2);
+                }
+                
+            }
+        }
     }
 }
