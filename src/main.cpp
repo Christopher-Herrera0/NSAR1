@@ -44,7 +44,7 @@ void initialize() {
 
   pros::Task brain_log_task(brain_log, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Distance Task");
   pros::Task cascade_reset_task(cascade_reset, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Cascade Reset Task");
-  pros::Task intake_antijam_task(intake_antijam,TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Antijam Task");
+  // pros::Task intake_antijam_task(intake_antijam,TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Antijam Task"); // Causing issues with intake running in auton.
 
 
   // Look at your horizontal tracking wheel and decide if it's in front of the midline of your robot or behind it
