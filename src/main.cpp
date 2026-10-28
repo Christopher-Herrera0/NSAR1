@@ -287,9 +287,9 @@ void opcontrol() {
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
-    claw.set_brake_mode(MOTOR_BRAKE_BRAKE);
-    lift.set_brake_mode(MOTOR_BRAKE_BRAKE);
-    wrist.set_brake_mode(MOTOR_BRAKE_BRAKE);
+    claw.set_brake_mode(MOTOR_BRAKE_HOLD);
+    lift.set_brake_mode(MOTOR_BRAKE_HOLD);
+    wrist.set_brake_mode(MOTOR_BRAKE_HOLD);
 
     // chassis.opcontrol_tank();  // Tank control
     chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
