@@ -2,6 +2,7 @@
 
 void default_constants();
 
+void learning_pure();
 void auton_skills();
 void match_right_auton();
 void match_left_auton();

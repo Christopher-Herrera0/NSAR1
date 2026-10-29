@@ -48,6 +48,12 @@ void default_constants() {
   chassis.pid_angle_behavior_set(ez::shortest);  // Changes the default behavior for turning, this defaults it to the shortest path there
 }
 
+void learning_pure(){
+  wrist.tare_position();
+
+  chassis.pid_odom_set({{0_in, 10_in, 45_deg}, ez::fwd, 127});
+  chassis.pid_wait();
+}
 
 void match_right_auton() {
 
