@@ -73,8 +73,8 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+      {"Random Code\n\n echo", random_code},
       {"Boomerang\n\nGo to (0, 24, 45) then come back to (0, 0, 0)", odom_boomerang_example},
-      {"Testing Odom\n\n echo", learning_pure},
       {"Skills Auton\n\n Performs the auton for skills", auton_skills},
       {"Right Side auton\n\n Performs the auton on the Right side", match_right_auton},
       {"Left Side auton\n\n Performs the auton on the Left side", match_left_auton},

@@ -46,12 +46,12 @@ void default_constants() {
   chassis.odom_boomerang_dlead_set(0.625);     // This handles how aggressive the end of boomerang motions are
 
   chassis.pid_angle_behavior_set(ez::shortest);  // Changes the default behavior for turning, this defaults it to the shortest path there
+
+  chassis.drive_imu_scaler_set(1.00);
 }
 
-void learning_pure(){
-  wrist.tare_position();
-
-  chassis.pid_odom_set({{0_in, 10_in, 45_deg}, ez::fwd, 127});
+void random_code(){
+  chassis.pid_turn_set(3600_deg, 40, ez::raw);
   chassis.pid_wait();
 }
 
