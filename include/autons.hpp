@@ -3,6 +3,7 @@
 void default_constants();
 
 void random_code();
+void random_code1();
 void auton_skills();
 void match_right_auton();
 void match_left_auton();
