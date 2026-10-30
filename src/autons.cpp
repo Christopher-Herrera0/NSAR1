@@ -17,7 +17,7 @@ void default_constants() {
   // P, I, D, and Start I
   chassis.pid_drive_constants_set(23.5, 1.5, 35.0);         // fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
-  chassis.pid_turn_constants_set(5.0, 1.0, 30.0, 10.0);     // Turn in place constants
+  chassis.pid_turn_constants_set(8.0, 1.0, 40.0, 10.0);     // Turn in place constants
   chassis.pid_swing_constants_set(5.0, 2.0, 26.5);           // Swing constants
   chassis.pid_odom_angular_constants_set(6.5, 0.0, 52.5);    // Angular control for odom motions
   chassis.pid_odom_boomerang_constants_set(7.5, 0, 40);  // Angular control for boomerang motions
@@ -51,7 +51,7 @@ void default_constants() {
 }
 
 void random_code(){
-  chassis.pid_turn_set(3600_deg, 40, ez::raw);
+  chassis.pid_turn_set(3600_deg, 110, ez::raw);
   chassis.pid_wait();
 }
 
