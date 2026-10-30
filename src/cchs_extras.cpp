@@ -29,9 +29,9 @@ void cascade_reset() {
 void brain_log(){
 
     while(true){
-        std::cout << "Efficiency: " << intake.get_efficiency() << std::endl;
+        //std::cout << "Efficiency: " << intake.get_efficiency() << std::endl;
 
-        pros::delay(250);
+        pros::delay(5000);
     }
 }
 
