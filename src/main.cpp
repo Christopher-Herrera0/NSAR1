@@ -9,12 +9,12 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {2, 7},  // Left Chassis Ports (negative port will reverse it!)
-    {-5, -4},  // Right Chassis Ports (negative port will reverse it!)
+    {1},  // Left Chassis Ports (negative port will reverse it!)
+    {-2},  // Right Chassis Ports (negative port will reverse it!)
 
-    3,  // IMU Port
-    2.75,     // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-    360);    // Wheel RPM = cartridge * (motor gear / wheel gear)
+    19,  // IMU Port
+    4.00,     // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
+    200);    // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Uncomment the trackers you're using here!
 // - `8` and `9` are smart ports (making these negative will reverse the sensor)
@@ -73,6 +73,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+      {"Boomerang\n\nGo to (0, 24, 45) then come back to (0, 0, 0)", odom_boomerang_example},
       {"Testing Odom\n\n echo", learning_pure},
       {"Skills Auton\n\n Performs the auton for skills", auton_skills},
       {"Right Side auton\n\n Performs the auton on the Right side", match_right_auton},
@@ -88,7 +89,6 @@ void initialize() {
       {"Simple Odom\n\nThis is the same as the drive example, but it uses odom instead!", odom_drive_example},
       {"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
       {"Pure Pursuit Wait Until\n\nGo to (24, 24) but start running an intake once the robot passes (12, 24)", odom_pure_pursuit_wait_until_example},
-      {"Boomerang\n\nGo to (0, 24, 45) then come back to (0, 0, 0)", odom_boomerang_example},
       {"Boomerang Pure Pursuit\n\nGo to (0, 24, 45) on the way to (24, 24) then come back to (0, 0, 0)", odom_boomerang_injected_pure_pursuit_example},
       {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
   });
