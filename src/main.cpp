@@ -74,9 +74,9 @@ void initialize() {
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
       {"Left Side auton\n\n Performs the auton on the Left side", match_left_auton},
-      {"Testing Odom\n\n echo", learning_pure},
-      {"Skills Auton\n\n Performs the auton for skills", auton_skills},
       {"Right Side auton\n\n Performs the auton on the Right side", match_right_auton},
+      {"Skills Auton\n\n Performs the auton for skills", auton_skills},
+      {"Testing Odom\n\n echo", learning_pure},
       {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
