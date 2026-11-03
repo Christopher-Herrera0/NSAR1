@@ -1,4 +1,7 @@
 #include "main.h"
+#include "cchs_extras.hpp"
+#include <algorithm>
+#include <cmath>
 
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
@@ -46,6 +49,97 @@ void default_constants() {
   chassis.odom_boomerang_dlead_set(0.625);     // This handles how aggressive the end of boomerang motions are
 
   chassis.pid_angle_behavior_set(ez::shortest);  // Changes the default behavior for turning, this defaults it to the shortest path there
+}
+
+void proto_skills_auton() {
+  wrist.tare_position();
+
+  // 1. Initial positioning — use pid_wait() so motions finish cleanly
+  chassis.pid_drive_set(-8_in, 127, true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(11_in, 127, true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-8_in, 127, true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(13_in, 127, true);
+  chassis.pid_wait();
+
+  wrist.move_absolute(1050, 127);
+
+  chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, 110, 14);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-3_in, 127, true);
+  chassis.pid_wait();
+  claw.move(-40);
+  pros::delay(800);
+  claw.move(0);
+
+  // 6. Back away using standard EZ-Template PID
+
+  drive_to_distance_rear(&goal_distance, 6.0, 110);
+
+  chassis.pid_turn_set(34_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  wrist.move_absolute(2000, 127);
+
+  wrist.move_absolute(1500, 127);
+
+  chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  claw.move(127);
+
+  wrist.move_absolute(500, 127);
+
+  wrist.move_absolute(300, 127);
+
+  pros::delay(1000);
+
+  wrist.move_absolute(1050, 127);
+
+  chassis.pid_turn_set(160_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  lift.move(-127);
+
+  pros::delay(630);
+
+  lift.move(0);
+
+  wrist.move_absolute(0, 127);
+
+  pros::delay(825);
+
+  wrist.move_absolute(1050, 127);
+
+  chassis.pid_drive_set(-6, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  lift.move(127);
+
+  pros::delay(300);
+
+  lift.move(0);
+
+  claw.move(-127);
+
+  pros::delay(300);
+
+  lift.move(-127);
+
+  pros::delay(500);
+
+  lift.move(0);
+
+  claw.move(0);
+
+  chassis.pid_drive_set(6, DRIVE_SPEED, true);
+  chassis.pid_wait();
 }
 
 void learning_pure(){

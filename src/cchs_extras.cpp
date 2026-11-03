@@ -72,3 +72,107 @@ void stack_action(){
         }
     }
 }
+
+void drive_to_distance(pros::Distance* distance_sensor, double target_in, int max_speed) {
+  if (distance_sensor == nullptr) return;
+
+  ez::PID::Constants consts = chassis.pid_drive_constants_get();
+  ez::PID pid(consts.kp, consts.ki, consts.kd, consts.start_i, "Distance Drive");
+
+  pid.target_set(0.0);
+  pid.timers_reset();
+
+  // 1. FASTER EXIT TIMERS: Reduced settlement check from 100ms/250ms down to 40ms/80ms
+  // Exits quickly when within 0.4 inches rather than waiting a quarter of a second
+  pid.exit_condition_set(40, 0.4, 80, 0.8, 0, 0);
+
+  int timeout_timer = 0;
+  const int max_timeout = 2000; // Reduced safety timeout to 2.0s
+
+  while (timeout_timer < max_timeout) {
+    int32_t dist_mm = distance_sensor->get();
+    int32_t confidence = distance_sensor->get_confidence();
+
+    if (dist_mm == PROS_ERR || dist_mm == INT32_MAX || confidence < 10) {
+      chassis.drive_set(0, 0);
+      pros::delay(ez::util::DELAY_TIME);
+      timeout_timer += ez::util::DELAY_TIME;
+      continue;
+    }
+
+    double current_dist_in = dist_mm / 25.4;
+    double error_in = current_dist_in - target_in;
+
+    // 2. INSTANT CHAINING BREAK: Exit immediately once inside tolerance (0.4 in)
+    // Prevents the robot from coming to a complete dead stop if chaining into another auton move
+    if (std::abs(error_in) <= 0.4) {
+      break;
+    }
+
+    double power = pid.compute_error(error_in, current_dist_in);
+    int clamped_power = static_cast<int>(ez::util::clamp(power, max_speed, -max_speed));
+
+    // 3. HIGHER MINIMUM POWER FLOOR: Increased from 25 to 38
+    // Eliminates slow crawling near the end of the move to overcome motor friction & brake hold instantly
+    if (std::abs(clamped_power) < 38) {
+      clamped_power = (error_in > 0) ? 38 : -38;
+    }
+
+    chassis.drive_set(clamped_power, clamped_power);
+
+    if (pid.exit_condition() != ez::RUNNING) break;
+
+    pros::delay(ez::util::DELAY_TIME);
+    timeout_timer += ez::util::DELAY_TIME;
+  }
+
+  // 4. Removed high-frequency printf & fflush (serial latency killer)
+}
+
+void drive_to_distance_rear(pros::Distance* distance_sensor, double target_in, int max_speed) {
+  if (distance_sensor == nullptr) return;
+
+  ez::PID::Constants consts = chassis.pid_drive_constants_get();
+  ez::PID pid(consts.kp, consts.ki, consts.kd, consts.start_i, "Distance Drive Rear");
+
+  pid.target_set(0.0);
+  pid.timers_reset();
+  pid.exit_condition_set(40, 0.4, 80, 0.8, 0, 0);
+
+  int timeout_timer = 0;
+  const int max_timeout = 2000;
+
+  while (timeout_timer < max_timeout) {
+    int32_t dist_mm = distance_sensor->get();
+    int32_t confidence = distance_sensor->get_confidence();
+
+    if (dist_mm == PROS_ERR || dist_mm == INT32_MAX || dist_mm >= 9990 || confidence < 5) {
+      chassis.drive_set(0, 0);
+      pros::delay(ez::util::DELAY_TIME);
+      timeout_timer += ez::util::DELAY_TIME;
+      continue;
+    }
+
+    double current_dist_in = dist_mm / 25.4;
+    double error_in = current_dist_in - target_in;
+
+    if (std::abs(error_in) <= 0.4) break;
+
+    double power = pid.compute_error(error_in, current_dist_in);
+    int clamped_power = static_cast<int>(ez::util::clamp(power, max_speed, -max_speed));
+
+    if (std::abs(clamped_power) < 38) {
+      clamped_power = (error_in > 0) ? 38 : -38;
+    }
+
+    // INVERT MOTOR POWER: Drives FORWARD to increase distance from rear wall
+    chassis.drive_set(-clamped_power, -clamped_power);
+
+    if (pid.exit_condition() != ez::RUNNING) break;
+
+    pros::delay(ez::util::DELAY_TIME);
+    timeout_timer += ez::util::DELAY_TIME;
+  }
+
+  chassis.drive_set(0, 0);
+}
