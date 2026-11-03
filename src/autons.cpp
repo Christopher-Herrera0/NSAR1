@@ -54,7 +54,6 @@ void default_constants() {
 void proto_skills_auton() {
   wrist.tare_position();
 
-  // 1. Initial positioning — use pid_wait() so motions finish cleanly
   chassis.pid_drive_set(-8_in, 127, true);
   chassis.pid_wait();
 
@@ -74,11 +73,12 @@ void proto_skills_auton() {
 
   chassis.pid_drive_set(-3_in, 127, true);
   chassis.pid_wait();
-  claw.move(-40);
-  pros::delay(800);
-  claw.move(0);
 
-  // 6. Back away using standard EZ-Template PID
+  claw.move(-40);
+
+  pros::delay(800);
+
+  claw.move(0);
 
   drive_to_distance_rear(&goal_distance, 6.0, 110);
 
@@ -89,8 +89,7 @@ void proto_skills_auton() {
 
   wrist.move_absolute(1500, 127);
 
-  chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
-  chassis.pid_wait();
+  drive_to_distance_rear(&goal_distance, 2.0, 110);
 
   claw.move(127);
 
