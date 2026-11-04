@@ -246,7 +246,7 @@ void match_left_auton() {
 
   wrist.move_absolute(1050, 127);
 
-  chassis.pid_turn_set(-160_deg, TURN_SPEED);
+  chassis.pid_turn_set(-156_deg, TURN_SPEED);
   chassis.pid_wait();
 
   lift.move(-127);
@@ -316,23 +316,26 @@ void auton_skills() {
 
   wrist.tare_position();
 
+  chassis.pid_drive_set(6_in, 127, false);
+  pros::delay(500);
 
-  chassis.pid_drive_set(-8_in, 127, true);
-  pros::delay(800);
+  chassis.pid_drive_set(-4_in, 127, false);
+  pros::delay(500);
 
-  chassis.pid_drive_set(11_in, 127, true);
-  pros::delay(800);
+  chassis.pid_drive_set(6_in, 127, false);
+  pros::delay(500);
 
-  chassis.pid_drive_set(-8_in, 127, true);
-  pros::delay(800);
+  chassis.drive_set(0, 0);
+  pros::delay(50);
 
-  chassis.pid_drive_set(11_in, 127, true);
-  pros::delay(800);
+  chassis.drive_imu_reset();     
+  chassis.drive_sensor_reset();  
+  pros::delay(50);
 
   wrist.move_absolute(1050, 127);
 
   chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, 110, 12);
-  chassis.pid_wait();
+  chassis.pid_wait_quick();
 
   chassis.pid_drive_set(-3_in, 127, true);
   chassis.pid_wait();
@@ -343,12 +346,11 @@ void auton_skills() {
 
   claw.move(0);
 
-  chassis.pid_drive_set(5_in, 127, true);
-  chassis.pid_wait();
+  drive_to_distance_rear(&goal_distance, 6.0, 110);
 
   chassis.pid_turn_set(34_deg, TURN_SPEED);
   chassis.pid_wait();
-  
+
   wrist.move_absolute(2000, 127);
 
   wrist.move_absolute(1500, 127);
@@ -366,7 +368,7 @@ void auton_skills() {
 
   wrist.move_absolute(1050, 127);
 
-  chassis.pid_turn_set(158_deg, TURN_SPEED);
+  chassis.pid_turn_set(160_deg, TURN_SPEED);
   chassis.pid_wait();
 
   lift.move(-127);
@@ -381,8 +383,7 @@ void auton_skills() {
 
   wrist.move_absolute(1050, 127);
 
-  chassis.pid_drive_set(-6, DRIVE_SPEED, true);
-  chassis.pid_wait();
+  drive_to_distance_rear(&goal_distance, 6.5, 110);
 
   lift.move(127);
 
@@ -405,25 +406,17 @@ void auton_skills() {
   chassis.pid_drive_set(6, DRIVE_SPEED, true);
   chassis.pid_wait();
 
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-13, DRIVE_SPEED, true);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(135_deg, TURN_SPEED);
+  chassis.pid_turn_set(118_deg, TURN_SPEED);
   chassis.pid_wait();
 
   lift.move_absolute(0, 127);
 
-  chassis.pid_drive_set(-3, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-10, DRIVE_SPEED, true);
   chassis.pid_wait();
-
-  wrist.move_absolute(2000, 127);
 
   wrist.move_absolute(1500, 127);
 
-  chassis.pid_drive_set(-7.5_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-7_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 
   claw.move(127);
@@ -439,7 +432,7 @@ void auton_skills() {
 
   wrist.move_absolute(1360, 127);
 
-  pros::delay(1000);
+  pros::delay(50);
 
   chassis.pid_turn_set(-102_deg, TURN_SPEED);
   chassis.pid_wait();
@@ -462,8 +455,7 @@ void auton_skills() {
 
   lift.move(0);
 
-  chassis.pid_drive_set(-8.5_in, DRIVE_SPEED, true);
-  chassis.pid_wait();
+  drive_to_distance_rear(&goal_distance, 6.5, 110);
 
   lift.move(127);
 
