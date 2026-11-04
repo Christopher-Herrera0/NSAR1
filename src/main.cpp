@@ -9,7 +9,7 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {2, 7},  // Left Chassis Ports (negative port will reverse it!)
+    {2, 9},  // Left Chassis Ports (negative port will reverse it!)
     {-5, -4},  // Right Chassis Ports (negative port will reverse it!)
 
     3,  // IMU Port
@@ -73,7 +73,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"Random Code\n\n echo", swing_example},
+      {"Random Code\n\n echo", random_code},
       {"Boomerang\n\nGo to (0, 24, 45) then come back to (0, 0, 0)", odom_boomerang_example},
       {"Skills Auton\n\n Performs the auton for skills", auton_skills},
       {"Right Side auton\n\n Performs the auton on the Right side", match_right_auton},

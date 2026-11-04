@@ -52,23 +52,46 @@ void default_constants() {
 
 void random_code(){
 
+  chassis.odom_xyt_set(0_in, 0_in, 0_deg);
+  
+  chassis.pid_drive_set(-5_in, 127);
+  pros::delay(500);
+  chassis.pid_drive_set(8_in, 127);
+  pros::delay(500);
+  chassis.pid_drive_set(-5_in, 127);
+  pros::delay(500);
+  chassis.pid_drive_set(8_in, 127);
+  pros::delay(500);
+  chassis.pid_odom_set({{{0_in, -8_in}, ez::rev, DRIVE_SPEED},
+                      {{-10_in, -8_in, 89_deg}, ez::rev, DRIVE_SPEED}});
+  chassis.pid_wait_until_index(0);
+  wrist.move_absolute(1160, 127);
+  chassis.pid_wait();
   
 
+}
+
+///
+// Odom Pure Pursuit
+///
+void odom_pure_pursuit_example() {
+  // Drive to 0, 30 and pass through 6, 10 and 0, 20 on the way, with slew
+  chassis.pid_odom_set({{{0_in, 10_in}, ez::fwd, DRIVE_SPEED},
+                        {{6_in, 10_in}, ez::fwd, DRIVE_SPEED},
+                        {{3_in, 30_in}, ez::fwd, DRIVE_SPEED}},
+                       true);
+  chassis.pid_wait();
+
+  // Drive to 0, 0 backwards
+  chassis.pid_odom_set({{0_in, 0_in}, ez::rev, DRIVE_SPEED},
+                       true);
+  chassis.pid_wait();
 }
 
 void random_code1(){
   wrist.tare_position();
 
 
-  // Toggles
-  chassis.pid_drive_set(-5_in, 127, false);
-  chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(8_in, 127, false);
-  chassis.pid_wait_quick_chain();
-  chassis.pid_drive_set(-5_in, 127, false);
-  chassis.pid_wait_quick_chain();
-  
-  // Score first pin
 }
 
 void match_right_auton() {
@@ -624,22 +647,7 @@ void odom_drive_example() {
   chassis.pid_wait();
 }
 
-///
-// Odom Pure Pursuit
-///
-void odom_pure_pursuit_example() {
-  // Drive to 0, 30 and pass through 6, 10 and 0, 20 on the way, with slew
-  chassis.pid_odom_set({{{0_in, 10_in}, ez::fwd, DRIVE_SPEED},
-                        {{6_in, 10_in}, ez::fwd, DRIVE_SPEED},
-                        {{3_in, 30_in}, ez::fwd, DRIVE_SPEED}},
-                       true);
-  chassis.pid_wait();
 
-  // Drive to 0, 0 backwards
-  chassis.pid_odom_set({{0_in, 0_in}, ez::rev, DRIVE_SPEED},
-                       true);
-  chassis.pid_wait();
-}
 
 ///
 // Odom Pure Pursuit Wait Until

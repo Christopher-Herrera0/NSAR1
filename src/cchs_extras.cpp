@@ -47,9 +47,13 @@ void intake_antijam(){
 }
 
 void stack_action(){
+    //
+
+
     double targetGoalDistance = 400; // Change 400 to whatever distance away from goal is ideal IN MILIMETERS
     double wristHorizPos = 400; // Change 400 to however many revs is perfectly horizontal IN REVOLUTIONS
     double bansheeReading = 0; // For use in loops below
+    double wristLength = 400;
     while (true){
         if (master.get_digital_new_press(DIGITAL_Y)){
             scoring_block = true;
@@ -59,6 +63,7 @@ void stack_action(){
                 break;
             } else {
                 double distanceTargetError = (targetGoalDistance - goal_distance.get_distance());
+                wrist.move_absolute(800, 127);
                 chassis.pid_drive_set((distanceTargetError * okapi::millimeter), 127);
                 chassis.pid_wait();
                 wrist.move_absolute(wristHorizPos, 127);
@@ -67,6 +72,7 @@ void stack_action(){
                 while ((bansheeReading >= bansheeReading - 10) && (bansheeReading <= bansheeReading + 10)){
                     pros::delay(10);
                 }
+                lift.move(0);
                 
             }
         }
