@@ -68,8 +68,7 @@ void proto_skills_auton() {
 
   // Software zeroing flat against wall
   chassis.drive_imu_reset();     
-  chassis.drive_sensor_reset();  
-  tare_goal_distance(&front_distance);
+  chassis.drive_sensor_reset();
   pros::delay(50);
 
   // 2. Drive forward out of wall alignment while pre-positioning wrist
@@ -88,6 +87,9 @@ void proto_skills_auton() {
   claw.move(-40);
   pros::delay(400); // Reduced delay; clamp engages before 800ms
   claw.move(0);
+
+  tare_goal_distance(&goal_distance);
+  pros::delay(50);
 
   // Rear distance approach to 6 inches
   drive_to_distance_rear(&goal_distance, 6.0, 110);
@@ -123,6 +125,9 @@ void proto_skills_auton() {
   pros::delay(200);
 
   wrist.move_absolute(1050, 127);
+
+  tare_goal_distance(&goal_distance);
+  pros::delay(50);
 
   drive_to_distance_rear(&goal_distance, 6.5, 110);
 
@@ -180,6 +185,9 @@ void proto_skills_auton() {
   lift.move(-127);
   pros::delay(300);
   lift.move(0);
+
+  tare_goal_distance(&goal_distance);
+  pros::delay(50);
 
   drive_to_distance_rear(&goal_distance, 6.5, 110);
 
