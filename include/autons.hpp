@@ -2,6 +2,7 @@
 
 void default_constants();
 
+void proto_skills_auton();
 void proto_match_right_auton();
 void learning_pure();
 void auton_skills();

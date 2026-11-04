@@ -52,7 +52,157 @@ void default_constants() {
 }
 
 void proto_match_right_auton() {
-  
+
+}
+
+void proto_skills_auton() {
+
+  wrist.tare_position();
+
+  // 1. Raw-voltage wall slam to mechanically square up (eliminates PID stall locks)
+  chassis.drive_set(-60, -60);
+  pros::delay(300);
+
+  chassis.drive_set(0, 0);
+  pros::delay(50);
+
+  // Software zeroing flat against wall
+  chassis.drive_imu_reset();     
+  chassis.drive_sensor_reset();  
+  tare_goal_distance(&front_distance);
+  pros::delay(50);
+
+  // 2. Drive forward out of wall alignment while pre-positioning wrist
+  wrist.move_absolute(1050, 127);
+  chassis.pid_drive_set(6_in, 127, false);
+  chassis.pid_wait_quick_chain();
+
+  // 3. Swing turn to 90 deg
+  chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, 110, 12);
+  chassis.pid_wait_quick();
+
+  chassis.pid_drive_set(-3_in, 127, false);
+  chassis.pid_wait();
+
+  // Clamp mobile goal
+  claw.move(-40);
+  pros::delay(400); // Reduced delay; clamp engages before 800ms
+  claw.move(0);
+
+  // Rear distance approach to 6 inches
+  drive_to_distance_rear(&goal_distance, 6.0, 110);
+
+  // Parallel turn + wrist lift for scoring
+  wrist.move_absolute(2000, 127);
+  chassis.pid_turn_set(34_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  wrist.move_absolute(1500, 127);
+
+  chassis.pid_drive_set(-15_in, DRIVE_SPEED, false);
+  chassis.pid_wait();
+
+  claw.move(127);
+
+  // Parallel wrist drop during claw release
+  wrist.move_absolute(500, 127);
+  pros::delay(300);
+  wrist.move_absolute(300, 127);
+  pros::delay(500);
+
+  // Turn to 160 deg while raising wrist to neutral position
+  wrist.move_absolute(1050, 127);
+  chassis.pid_turn_set(160_deg, TURN_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  // Overlapped lift lowering
+  lift.move(-127);
+  wrist.move_absolute(0, 127);
+  pros::delay(630);
+  lift.move(0);
+  pros::delay(200);
+
+  wrist.move_absolute(1050, 127);
+
+  drive_to_distance_rear(&goal_distance, 6.5, 110);
+
+  // Score action sequence
+  lift.move(127);
+  pros::delay(300);
+  lift.move(0);
+
+  claw.move(-127);
+  lift.move(-127);
+  pros::delay(400);
+  lift.move(0);
+  claw.move(0);
+
+  // Rapid repositioning out
+  chassis.pid_drive_set(6_in, DRIVE_SPEED, false);
+  chassis.pid_wait_quick_chain();
+
+  // Turn toward second goal
+  lift.move_absolute(0, 127);
+  chassis.pid_turn_set(118_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED, false);
+  chassis.pid_wait_quick_chain();
+
+  wrist.move_absolute(1500, 127);
+
+  chassis.pid_drive_set(-7_in, DRIVE_SPEED, false);
+  chassis.pid_wait();
+
+  claw.move(127);
+
+  wrist.move_absolute(500, 127);
+
+  chassis.pid_drive_set(-3.5_in, DRIVE_SPEED, false);
+  chassis.pid_wait();
+
+  wrist.move_absolute(300, 127);
+  pros::delay(500);
+
+  wrist.move_absolute(1360, 127);
+
+  // Turn to -102 deg while pre-lowering lift
+  lift.move(-127);
+  chassis.pid_turn_set(-102_deg, TURN_SPEED);
+  chassis.pid_wait();
+  lift.move(0);
+
+  wrist.move_absolute(0, 127);
+  pros::delay(600);
+
+  wrist.move_absolute(1050, 127);
+
+  lift.move(-127);
+  pros::delay(300);
+  lift.move(0);
+
+  drive_to_distance_rear(&goal_distance, 6.5, 110);
+
+  // Final scoring sequence
+  lift.move(127);
+  pros::delay(350);
+  lift.move(0);
+
+  claw.move(-127);
+  lift.move(-127);
+  pros::delay(400);
+  lift.move(0);
+
+  chassis.pid_drive_set(6_in, DRIVE_SPEED, false);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_turn_set(-40_deg, TURN_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  // Fast exit drive
+  chassis.pid_drive_set(-40_in, DRIVE_SPEED, false);
+  chassis.pid_wait();
+
 }
 
 void learning_pure(){
