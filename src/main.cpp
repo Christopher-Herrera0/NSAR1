@@ -73,9 +73,9 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+      {"prototype skills auton\n\n Performs the prototype skills auton", proto_skills_auton},
       {"Right Side auton\n\n Performs the auton on the Right side", match_right_auton},
       {"Skills Auton\n\n Performs the auton for skills", auton_skills},
-      {"prototype skills auton\n\n Performs the prototype skills auton", proto_skills_auton},
       {"Left Side auton\n\n Performs the auton on the Left side", match_left_auton},
       {"prototype auton\n\n echo", proto_match_right_auton},
       {"Testing Odom\n\n echo", learning_pure},
@@ -141,7 +141,6 @@ void autonomous() {
   chassis.pid_targets_reset();                // Resets PID targets to 0
   chassis.drive_imu_reset();                  // Reset gyro position to 0
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
-  calibrate_distance_baseline(&front_distance); //Reset distance based on IMU
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);    // Set the current position, you can start at a specific position with this
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
 
