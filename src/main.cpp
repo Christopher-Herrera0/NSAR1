@@ -73,11 +73,11 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"prototype skills auton\n\n Performs the prototype skills auton", proto_skills_auton},
       {"Right Side auton\n\n Performs the auton on the Right side", match_right_auton},
+      {"Skills Auton\n\n Performs the auton for skills", auton_skills},
+      {"prototype skills auton\n\n Performs the prototype skills auton", proto_skills_auton},
       {"Left Side auton\n\n Performs the auton on the Left side", match_left_auton},
       {"prototype auton\n\n echo", proto_match_right_auton},
-      {"Skills Auton\n\n Performs the auton for skills", auton_skills},
       {"Testing Odom\n\n echo", learning_pure},
       {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
       {"Drive\n\nDrive forward and come back", drive_example},
@@ -99,6 +99,9 @@ void initialize() {
   chassis.initialize();
   ez::as::initialize();
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
+  claw.set_brake_mode(MOTOR_BRAKE_HOLD);
+  lift.set_brake_mode(MOTOR_BRAKE_HOLD);
+  wrist.set_brake_mode(MOTOR_BRAKE_HOLD);
 }
 
 /**
