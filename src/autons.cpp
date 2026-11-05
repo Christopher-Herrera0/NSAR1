@@ -54,7 +54,7 @@ void random_code(){
 
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);
   
-  chassis.pid_drive_set(-5_in, 127);
+  chassis.pid_drive_set(-4_in, 127);
   pros::delay(500);
   chassis.pid_drive_set(8_in, 127);
   pros::delay(500);
@@ -65,8 +65,36 @@ void random_code(){
   chassis.pid_odom_set({{{0_in, -8_in}, ez::rev, DRIVE_SPEED},
                       {{-10_in, -8_in, 89_deg}, ez::rev, DRIVE_SPEED}});
   chassis.pid_wait_until_index(0);
-  wrist.move_absolute(1160, 127);
+  wrist.move_absolute(1100, 127);
   chassis.pid_wait();
+  pros::delay(100);
+  claw.move(-60);
+  pros::delay(350);
+  chassis.pid_drive_set(5_in, 127);
+  chassis.pid_wait();
+  claw.move(0);
+  wrist.move_absolute(1800, 127);
+
+
+  chassis.pid_odom_set({{{0_in, -8_in}, ez::fwd, DRIVE_SPEED},
+                        {{-14_in, -20_in, 33_deg}, ez::rev, DRIVE_SPEED}});
+  chassis.pid_wait();
+  claw.move(127);
+  wrist.move_absolute(350, 127);
+  //pros::delay(200);
+  //wrist.move_absolute(1500, 127);
+  //chassis.pid_odom_set({{-10_in, -8_in, 180_deg}, ez::rev, DRIVE_SPEED});
+  //chassis.pid_wait_until_index_started(0);
+  //wrist.move_absolute(1100, 127);
+  //chassis.pid_wait();
+  //pros::delay(100);
+  //claw.move(-60);
+
+
+  //chassis.pid_turn_set(36_deg, 127);
+  //chassis.pid_wait();
+  
+
   
 
 }
