@@ -51,6 +51,7 @@ void default_constants() {
 }
 
 void random_code(){
+  int timeout = 0;
 
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);
   
@@ -74,29 +75,32 @@ void random_code(){
   chassis.pid_wait();
   claw.move(0);
   wrist.move_absolute(1800, 127);
-
-
   chassis.pid_odom_set({{{0_in, -8_in}, ez::fwd, DRIVE_SPEED},
-                        {{-14_in, -20_in, 33_deg}, ez::rev, DRIVE_SPEED}});
+                        {{-14_in, -20_in, 35_deg}, ez::rev, DRIVE_SPEED}});
   chassis.pid_wait();
   claw.move(127);
-  wrist.move_absolute(350, 127);
-  //pros::delay(200);
-  //wrist.move_absolute(1500, 127);
-  //chassis.pid_odom_set({{-10_in, -8_in, 180_deg}, ez::rev, DRIVE_SPEED});
-  //chassis.pid_wait_until_index_started(0);
-  //wrist.move_absolute(1100, 127);
-  //chassis.pid_wait();
-  //pros::delay(100);
-  //claw.move(-60);
+  wrist.move_absolute(350,127);
+  pros::delay(800);
+  claw.move(60);
+  pros::delay(200);
+  wrist.move_absolute(1630, 127);
+  lift.move_absolute(700, 127);
+  chassis.pid_odom_set({{{-17_in, -23_in, 120_deg}, ez::rev, DRIVE_SPEED},
+                        {{-17_in, -11_in, 195_deg}, ez::rev, DRIVE_SPEED}});
+  chassis.pid_wait();
 
-
-  //chassis.pid_turn_set(36_deg, 127);
-  //chassis.pid_wait();
-  
-
-  
-
+  wrist.move_absolute(750, 127);
+  pros::delay(400);
+  lift.move_absolute(400, 127);
+  pros::delay(400);
+  claw.move(-127);
+  lift.move_absolute(950, 127);
+  chassis.pid_drive_set(5_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  lift.move_absolute(0, 127);
+  wrist.move_absolute(0, 127);
+  chassis.pid_turn_set(135_deg, 127);
+  chassis.pid_wait();
 }
 
 ///
