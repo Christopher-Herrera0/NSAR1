@@ -55,6 +55,7 @@ void random_code(){
 
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);
   
+  // Flipping Toggle
   chassis.pid_drive_set(-4_in, 127);
   pros::delay(500);
   chassis.pid_drive_set(8_in, 127);
@@ -63,38 +64,43 @@ void random_code(){
   pros::delay(500);
   chassis.pid_drive_set(8_in, 127);
   pros::delay(500);
+
+  // Score pre-load
   chassis.pid_odom_set({{{0_in, -8_in}, ez::rev, DRIVE_SPEED},
                       {{-10_in, -8_in, 89_deg}, ez::rev, DRIVE_SPEED}});
   chassis.pid_wait_until_index(0);
-  wrist.move_absolute(1100, 127);
+  wrist.move_absolute(1100, 127); // Leveled out to score on flat side
   chassis.pid_wait();
   pros::delay(100);
   claw.move(-60);
   pros::delay(350);
-  chassis.pid_drive_set(5_in, 127);
+  chassis.pid_drive_set(5_in, 127); // Clear goal to be able to turn
   chassis.pid_wait();
   claw.move(0);
-  wrist.move_absolute(1800, 127);
+
+  // Pick up pincup 1
+  wrist.move_absolute(1800, 127); // Set wrist high
   chassis.pid_odom_set({{{0_in, -8_in}, ez::fwd, DRIVE_SPEED},
                         {{-14_in, -20_in, 35_deg}, ez::rev, DRIVE_SPEED}});
   chassis.pid_wait();
   claw.move(127);
-  wrist.move_absolute(350,127);
+  wrist.move_absolute(350,127); // Pincup grab height
   pros::delay(800);
   claw.move(60);
   pros::delay(200);
-  wrist.move_absolute(1630, 127);
-  lift.move_absolute(700, 127);
+  wrist.move_absolute(1630, 127); // Lift pincup off ground
+  lift.move_absolute(700, 127); // Lift lift to clear the stack
   chassis.pid_odom_set({{{-17_in, -23_in, 120_deg}, ez::rev, DRIVE_SPEED},
                         {{-17_in, -11_in, 195_deg}, ez::rev, DRIVE_SPEED}});
   chassis.pid_wait();
 
-  wrist.move_absolute(750, 127);
+  // None of this has been tested.
+  wrist.move_absolute(750, 127); // Angle this slightly below horizontal b/c pincup usually grips at an angle.
   pros::delay(400);
-  lift.move_absolute(400, 127);
+  lift.move_absolute(400, 127); // Lower pincup over the stack directly
   pros::delay(400);
   claw.move(-127);
-  lift.move_absolute(950, 127);
+  lift.move_absolute(950, 127); // Raise lift clear of stack
   chassis.pid_drive_set(5_in, DRIVE_SPEED);
   chassis.pid_wait();
   lift.move_absolute(0, 127);
