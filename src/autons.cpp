@@ -50,6 +50,11 @@ void default_constants() {
   chassis.pid_angle_behavior_set(ez::shortest);  // Changes the default behavior for turning, this defaults it to the shortest path there
 }
 
+static void wait_until_ms(uint32_t t0, uint32_t ms) {
+  uint32_t elapsed = pros::millis() - t0;
+  if (elapsed < ms) pros::delay(ms - elapsed);
+}
+
 void proto_match_right_auton() {
 
 }
@@ -60,11 +65,13 @@ void proto_skills_auton() {
  
   // Wall-square wiggle.
   // CHANGED: pid_wait() instead of three fixed 500 ms sleeps.
-  chassis.pid_drive_set(6_in, 127, false);
+  chassis.pid_drive_set(-2_in, 127, false);
+  pros::delay(500);
+  chassis.pid_drive_set(8_in, 127, false);
   pros::delay(500);
   chassis.pid_drive_set(-4_in, 127, false);
   pros::delay(500);
-  chassis.pid_drive_set(6_in, 127, false);
+  chassis.pid_drive_set(8_in, 127, false);
   pros::delay(500);
  
   // CHANGED: disable the PID task before zeroing, so it can't lurch toward the
@@ -75,7 +82,7 @@ void proto_skills_auton() {
   chassis.pid_targets_reset();
   pros::delay(50);
  
-  wrist.move_absolute(1050, 127);
+  wrist.move_absolute(1080, 127);
  
   chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, 110, 12);
   chassis.pid_wait_quick();
@@ -87,18 +94,18 @@ void proto_skills_auton() {
   pros::delay(800);
   claw.move(0);
  
-  drive_to_distance_rear(&goal_distance, 6.0, 110);
+  drive_to_distance_rear(&goal_distance, 6.5, 110);
  
   chassis.pid_turn_set(34_deg, TURN_SPEED);
   chassis.pid_wait();
  
   wrist.move_absolute(1500, 127);  // CHANGED: removed the 2000 line, it was overwritten instantly
  
-  chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-15.5_in, DRIVE_SPEED, true);
   chassis.pid_wait();
  
   claw.move(127);
-  wrist.move_absolute(300, 127);  // CHANGED: removed the 500 line, same reason
+  wrist.move_absolute(0, 127);  // CHANGED: removed the 500 line, same reason
   pros::delay(1000);
   wrist.move_absolute(1050, 127);
  
@@ -106,7 +113,7 @@ void proto_skills_auton() {
   chassis.pid_wait();
  
   lift.move(-127);
-  pros::delay(630);
+  pros::delay(600);
   lift.move(0);
  
   wrist.move_absolute(0, 127);
@@ -116,7 +123,7 @@ void proto_skills_auton() {
   drive_to_distance_rear(&goal_distance, 6.5, 110);
  
   lift.move(127);
-  pros::delay(300);
+  pros::delay(350);
   lift.move(0);
  
   claw.move(-127);
@@ -125,9 +132,10 @@ void proto_skills_auton() {
   // CHANGED: lift lowers (same 500 ms) while the robot backs away, instead of before it.
   uint32_t t_lift = pros::millis();
   lift.move(-127);
+  pros::delay(200);
   chassis.pid_drive_set(6_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  wait_until_ms(t_lift, 500);
+  wait_until_ms(t_lift, 700);
   lift.move(0);
   claw.move(0);
  
@@ -135,10 +143,12 @@ void proto_skills_auton() {
   chassis.pid_wait();
  
   lift.move_absolute(0, 127);
+
+  pros::delay(300);
  
   // CHANGED: the -10 and -8 drives were one move split around a wrist command.
   // One -18 drive, wrist fires at the same point (10 in in), no stop in the middle.
-  chassis.pid_drive_set(-18_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(-19.5_in, DRIVE_SPEED, true);
   chassis.pid_wait_until(-10_in);
   wrist.move_absolute(1500, 127);
   chassis.pid_wait();
@@ -149,27 +159,27 @@ void proto_skills_auton() {
   chassis.pid_drive_set(-3.5_in, DRIVE_SPEED, false);  // CHANGED: slew off, 3.5 in is about the slew distance
   chassis.pid_wait();
  
-  wrist.move_absolute(300, 127);
+  wrist.move_absolute(0, 127);
   pros::delay(800);
-  wrist.move_absolute(1360, 127);
+  wrist.move_absolute(1300, 127);
  
   // CHANGED: removed the 50 ms delay before this turn.
-  chassis.pid_turn_set(-102_deg, TURN_SPEED);
+  chassis.pid_turn_set(-106_deg, TURN_SPEED);
   chassis.pid_wait();
  
   lift.move(-127);
-  pros::delay(630);
+  pros::delay(550);
   lift.move(0);
- 
+
   wrist.move_absolute(0, 127);
   pros::delay(825);
-  wrist.move_absolute(1050, 127);
- 
+  wrist.move_absolute(1150, 127);
+
   lift.move(-127);
-  pros::delay(450);
+  pros::delay(580);
   lift.move(0);
  
-  drive_to_distance_rear(&goal_distance, 6.5, 110);
+  drive_to_distance_rear(&goal_distance, 5.0, 110);
  
   lift.move(127);
   pros::delay(400);
@@ -180,13 +190,18 @@ void proto_skills_auton() {
   claw.move(-127);
   t_lift = pros::millis();
   lift.move(-127);
+  pros::delay(200);
   chassis.pid_drive_set(6_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  wait_until_ms(t_lift, 500);
+  wait_until_ms(t_lift, 400);
   lift.move(0);
  
   chassis.pid_turn_set(-40_deg, TURN_SPEED);
   chassis.pid_wait();
+
+  lift.move_absolute(0, 127);
+
+  wrist.move_absolute(2000, 127);
  
   chassis.pid_drive_set(-40_in, DRIVE_SPEED, true);
   chassis.pid_wait();

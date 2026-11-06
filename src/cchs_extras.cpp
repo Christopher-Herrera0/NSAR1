@@ -144,8 +144,3 @@ void drive_to_distance(pros::Distance* s, double target_in, int max_speed) {
 void drive_to_distance_rear(pros::Distance* s, double target_in, int max_speed) {
   if (s) drive_to_distance_impl(*s, target_in, max_speed, true);
 }
-
-static void wait_until_ms(uint32_t t0, uint32_t ms) {
-  uint32_t elapsed = pros::millis() - t0;
-  if (elapsed < ms) pros::delay(ms - elapsed);
-}
