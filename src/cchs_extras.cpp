@@ -144,3 +144,43 @@ void drive_to_distance(pros::Distance* s, double target_in, int max_speed) {
 void drive_to_distance_rear(pros::Distance* s, double target_in, int max_speed) {
   if (s) drive_to_distance_impl(*s, target_in, max_speed, true);
 }
+
+void wait_until_ms(uint32_t t0, uint32_t ms) {
+  uint32_t elapsed = pros::millis() - t0;
+  if (elapsed < ms) pros::delay(ms - elapsed);
+}
+
+// Small corrective turn (robot barely translates) so `side` reads target_in
+// from whatever surface it's currently facing. Call this right before the
+// pid_swing_set/pid_turn_set that aims you into the goal.
+// target_in: measure this by hand once, with the robot placed exactly
+// square to that surface during practice, then hardcode it.
+bool align_heading_to_side_wall(pros::Distance& side, double target_in,
+                                int timeout_ms = 600, int max_power = 35) {
+  uint32_t start = pros::millis();
+  int settled = 0;
+  while (pros::millis() - start < static_cast<uint32_t>(timeout_ms)) {
+    int32_t mm = side.get();
+    if (mm == PROS_ERR || mm >= 2000 || side.get_confidence() < 5) {
+      chassis.drive_set(0, 0);
+      pros::delay(15);
+      continue;
+    }
+    double reading = mm / 25.4;
+    double err = reading - target_in;
+
+    if (std::abs(err) <= 0.3) {
+      if (++settled >= 4) break;
+    } else {
+      settled = 0;
+    }
+
+    int p = static_cast<int>(ez::util::clamp(4.0 * err, max_power, -max_power));
+    if (std::abs(p) < 15 && std::abs(err) > 0.3) p = (err > 0) ? 15 : -15;
+
+    chassis.drive_set(p, -p);  // pure rotation, no net forward travel
+    pros::delay(15);
+  }
+  chassis.drive_set(0, 0);
+  return settled >= 4;
+}
