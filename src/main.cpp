@@ -73,15 +73,15 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"prototype skills auton\n\n Performs the prototype skills auton", proto_skills_auton},
-      {"Right Side auton\n\n Performs the auton on the Right side", match_right_auton},
-      {"Skills Auton\n\n Performs the auton for skills", auton_skills},
       {"Left Side auton\n\n Performs the auton on the Left side", match_left_auton},
+      {"Skills Auton\n\n Performs the auton for skills", auton_skills},
+      {"Right Side auton\n\n Performs the auton on the right side", match_right_auton},
+      {"prototype skills auton\n\n Performs the prototype skills auton", proto_skills_auton},
       {"prototype auton\n\n echo", proto_match_right_auton},
+      {"Turn\n\nTurn 3 times.", turn_example},
       {"Testing Odom\n\n echo", learning_pure},
       {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
       {"Drive\n\nDrive forward and come back", drive_example},
-      {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
       {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
       {"Motion Chaining\n\nDrive forward, turn, and come back, but blend everything together :D", motion_chaining},

@@ -156,7 +156,7 @@ void wait_until_ms(uint32_t t0, uint32_t ms) {
 // target_in: measure this by hand once, with the robot placed exactly
 // square to that surface during practice, then hardcode it.
 bool align_heading_to_side_wall(pros::Distance& side, double target_in,
-                                int timeout_ms = 600, int max_power = 35) {
+                                int timeout_ms, int max_power) {
   uint32_t start = pros::millis();
   int settled = 0;
   while (pros::millis() - start < static_cast<uint32_t>(timeout_ms)) {
