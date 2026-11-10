@@ -51,12 +51,97 @@ void default_constants() {
 }
 
 void proto_match_right_auton() {
+  // move the robot back and forth to hit the rollers to the right position
+  wrist.tare_position();
+
+  chassis.pid_drive_set(-2_in, 127, false);
+  pros::delay(200);
+  chassis.pid_drive_set(8_in, 127, false);
+  pros::delay(400);
+  chassis.pid_drive_set(-4_in, 127, false);
+  pros::delay(400);
+  chassis.pid_drive_set(8_in, 127, false);
+  pros::delay(400);
+
+  //resets sensors
+  chassis.drive_mode_set(ez::DISABLE);
+  chassis.drive_imu_reset();
+  chassis.drive_sensor_reset();
+  chassis.pid_targets_reset();
+  pros::delay(50);
+
+  //moves the wrist into position while swinging into the alliance goal
+  wrist.move_absolute(1080, 127);
+
+  chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, 110, 12);
+  chassis.pid_wait_quick();
+
+  //drives into the alliance goal;
+  drive_to_distance_rear(&goal_distance, 3.0, 110); 
+
+  // rotates the claw to drop the pin into the alliance goal
+  claw.move(-40);
+  pros::delay(800);
+  claw.move(0);
+
+  //used to drive away from the alliance goal to the perfect amount for the turn
+  drive_to_distance_rear(&goal_distance, 6.5, 110);
+
+  // turns to face the first pin and cup
+  //moves the wrist  while driving twords the pin and cup
+  chassis.pid_turn_set(34_deg, TURN_SPEED);
+  wrist.move_absolute(1500, 127);
+  chassis.pid_wait();
+
+  drive_to_pickup(goal_distance, 2.0, 17.0, DRIVE_SPEED, true);
+/*
+  chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+*/
+  //rotates the claw to pick up the pin and cup while lowering the calw and waiting and then picking it pack up with the pin and cup
+  claw.move(127);
+  wrist.move_absolute(0, 127);
+  pros::delay(1000);
+  wrist.move_absolute(1050, 127);
+  
+  //turns twords the alliance goal
+  // lifts the lift to be able to score on the alliance goal
+  chassis.pid_turn_set(158_deg, TURN_SPEED);
+  uint32_t t_lift2 = pros::millis();
+  lift.move(-127);
+  chassis.pid_wait();
+  wait_until_ms(t_lift2, 600);
+  lift.move(0);
+
+  // uses the goal distance sensor to move to the exact distance needed to score the pin and cup
+  align_to_goal_dual(goal_distance_left, goal_distance, 2.0, true, TURN_SPEED, -2.392, 15, 20.0);
+  drive_to_distance_rear(&goal_distance, 7.0, 110);
+  
+  //lowers the lift to score the pin and cup
+  lift.move(127);
+  pros::delay(350);
+  lift.move(0);
+  
+  // drops the pin and cup while moving the lift up and backing away from the alliance goal
+  claw.move(-127);
+
+  lift.move(127);
+  pros::delay(350);
+  lift.move(0);
+
+  claw.move(-127);
+
+  lift.move(-127);
+  pros::delay(700);
+  lift.move(0);
+
+  chassis.pid_drive_set(10_in, 127, false);
+  chassis.pid_wait();
 
 }
 
 void proto_skills_auton() {
-
-
+  dist_turn_test();
 }
 
 void learning_pure(){
