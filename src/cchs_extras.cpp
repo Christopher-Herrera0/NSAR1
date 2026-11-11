@@ -111,3 +111,26 @@ void stack_action(){
         }
     }
 }
+
+// Target Distances should be an integer in milimeters.
+void distance_sensor(pros::Distance distance_sensor1, pros::Distance distance_sensor2, 
+                        int targetDistance1, int targetDistance2){
+    
+    // Variables
+    int timeout = 0;
+    int total1 = 0;
+    int total2 = 0;
+    int reading1 = 0;
+    int reading2 = 0;
+    //
+
+    for (int i = 0; i < 10; i++){
+        total1 += distance_sensor1.get();
+        total2 += distance_sensor2.get();
+        pros::delay(10);
+    }
+    reading1 = total1 / 10;
+    reading2 = total2 / 10;
+
+
+}
