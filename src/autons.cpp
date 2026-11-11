@@ -66,8 +66,8 @@ void random_code(){
   pros::delay(500);
 
   // Score pre-load
-  chassis.pid_odom_set({{{0_in, -8_in}, ez::rev, DRIVE_SPEED},
-                      {{-10_in, -8_in, 89_deg}, ez::rev, DRIVE_SPEED}});
+  chassis.pid_odom_set({{{0_in, -6_in}, ez::rev, DRIVE_SPEED},
+                      {{-10_in, -6_in, 89_deg}, ez::rev, DRIVE_SPEED}});
   chassis.pid_wait_until_index(0);
   wrist.move_absolute(1100, 127); // Leveled out to score on flat side
   chassis.pid_wait();
@@ -81,7 +81,7 @@ void random_code(){
   // Pick up pincup 1
   wrist.move_absolute(1800, 127); // Set wrist high
   chassis.pid_odom_set({{{0_in, -8_in}, ez::fwd, DRIVE_SPEED},
-                        {{-14_in, -20_in, 35_deg}, ez::rev, DRIVE_SPEED}});
+                        {{-14.5_in, -20.5_in, 35_deg}, ez::rev, DRIVE_SPEED}});
   chassis.pid_wait();
   claw.move(127);
   wrist.move_absolute(350,127); // Pincup grab height
@@ -90,8 +90,8 @@ void random_code(){
   pros::delay(200);
   wrist.move_absolute(1630, 127); // Lift pincup off ground
   lift.move_absolute(700, 127); // Lift lift to clear the stack
-  chassis.pid_odom_set({{{-17_in, -23_in, 120_deg}, ez::rev, DRIVE_SPEED},
-                        {{-17_in, -11_in, 195_deg}, ez::rev, DRIVE_SPEED}});
+  chassis.pid_odom_set({{{-18_in, -23_in, 120_deg}, ez::rev, DRIVE_SPEED},
+                        {{-18_in, -11_in, 190_deg}, ez::rev, DRIVE_SPEED}});
   chassis.pid_wait();
 
   // None of this has been tested.

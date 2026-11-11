@@ -113,7 +113,7 @@ void stack_action(){
 }
 
 // Target Distances should be an integer in milimeters.
-void distance_sensor(pros::Distance distance_sensor1, pros::Distance distance_sensor2, 
+int distanceCheck(pros::Distance distance_sensor1, pros::Distance distance_sensor2, 
                         int targetDistance1, int targetDistance2){
     
     // Variables
@@ -132,5 +132,16 @@ void distance_sensor(pros::Distance distance_sensor1, pros::Distance distance_se
     reading1 = total1 / 10;
     reading2 = total2 / 10;
 
+    int error1 = reading1 - targetDistance1;
+    int error2 = reading2 - targetDistance2;
 
+    std::cout << "Error 1: " << error1 << std::endl;
+    std::cout << "Error 2: " << error2 << std::endl;
+
+    std::vector<pros::Device> distanceVector = pros::Device::get_all_devices(pros::DeviceType::distance);
+
+    chassis.odom_pose_get();
+    
+
+    return error1, error2;
 }

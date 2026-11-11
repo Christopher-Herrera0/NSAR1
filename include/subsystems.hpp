@@ -15,9 +15,13 @@ inline pros::Motor intake(19);
 inline pros::Motor wrist(-15);
 inline pros::Motor claw(-11);
 
+
+// KEEP DISTANCE SENSORS IN THIS ORDER: FRONT, LEFT, RIGHT, BACK. Any extras can go after.
+// These 4 distance sensors are for DSR
 inline pros::Distance front_distance(8);
 inline pros::Distance left_distance(17);
 inline pros::Distance right_distance(6);
 inline pros::Distance back_distance(10);
+// These distance sensors are for other functions.
 inline pros::Distance goal_distance(16);
 inline pros::Distance banshee_distance(15);
