@@ -116,6 +116,13 @@ void stack_action(){
 int distanceCheck(pros::Distance distance_sensor1, pros::Distance distance_sensor2, 
                         int targetDistance1, int targetDistance2){
     
+    std::vector<pros::Device> distanceVector = pros::Device::get_all_devices(pros::DeviceType::distance);
+    
+    for (int a = 1; a < 4; a++){
+        if (distance_sensor1.get_port() == distanceVector[a].get_port()){
+            
+        }
+    }
     // Variables
     int timeout = 0;
     int total1 = 0;
@@ -138,7 +145,6 @@ int distanceCheck(pros::Distance distance_sensor1, pros::Distance distance_senso
     std::cout << "Error 1: " << error1 << std::endl;
     std::cout << "Error 2: " << error2 << std::endl;
 
-    std::vector<pros::Device> distanceVector = pros::Device::get_all_devices(pros::DeviceType::distance);
 
     chassis.odom_pose_get();
     
