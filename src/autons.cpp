@@ -73,7 +73,7 @@ void proto_match_right_auton() {
   //moves the wrist into position while swinging into the alliance goal
   wrist.move_absolute(1080, 127);
 
-  chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, 110, 12);
+  chassis.pid_swing_set(ez::RIGHT_SWING, 90_deg, 110, 14);
   chassis.pid_wait_quick();
 
   //drives into the alliance goal;
@@ -93,7 +93,7 @@ void proto_match_right_auton() {
   wrist.move_absolute(1500, 127);
   chassis.pid_wait();
 
-  drive_to_pickup(goal_distance, 2.0, 17.0, DRIVE_SPEED, true);
+  drive_to_pickup(goal_distance, 2.0, 19.0, 127, true);
 /*
   chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
   chassis.pid_wait();
@@ -102,33 +102,27 @@ void proto_match_right_auton() {
   claw.move(127);
   wrist.move_absolute(0, 127);
   pros::delay(1000);
-  wrist.move_absolute(1050, 127);
+  wrist.move_absolute(1150, 127);
   
   //turns twords the alliance goal
   // lifts the lift to be able to score on the alliance goal
-  chassis.pid_turn_set(158_deg, TURN_SPEED);
-  uint32_t t_lift2 = pros::millis();
-  lift.move(-127);
+  chassis.pid_turn_set(166_deg, TURN_SPEED);
   chassis.pid_wait();
-  wait_until_ms(t_lift2, 600);
+  
+  lift.move(-127);
+  pros::delay(500);
   lift.move(0);
 
   // uses the goal distance sensor to move to the exact distance needed to score the pin and cup
-  align_to_goal_dual(goal_distance_left, goal_distance, 2.0, true, TURN_SPEED, -2.392, 15, 20.0);
   drive_to_distance_rear(&goal_distance, 7.0, 110);
+  align_to_goal_dual(goal_distance, goal_distance_toed, 5.0, 5.0 ,false, TURN_SPEED, -2.301);
   
   //lowers the lift to score the pin and cup
   lift.move(127);
-  pros::delay(350);
+  pros::delay(450);
   lift.move(0);
   
   // drops the pin and cup while moving the lift up and backing away from the alliance goal
-  claw.move(-127);
-
-  lift.move(127);
-  pros::delay(350);
-  lift.move(0);
-
   claw.move(-127);
 
   lift.move(-127);
@@ -141,7 +135,7 @@ void proto_match_right_auton() {
 }
 
 void proto_skills_auton() {
-  dist_turn_test();
+  align_to_goal_dual(goal_distance, goal_distance_toed, 5.0, 5.0 ,false, TURN_SPEED, -2.301);
 }
 
 void learning_pure(){
