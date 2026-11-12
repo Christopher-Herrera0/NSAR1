@@ -224,10 +224,7 @@ bool drive_to_pickup(pros::Distance& front_sensor, double target_in, double max_
   return found;
 }
 
-bool align_to_goal_dual(pros::Distance& sensor_straight, pros::Distance& sensor_toed,
-                        double spacing_in, double toe_angle_deg, bool straight_is_left,
-                        int turn_speed, double heading_bias_in,
-                        int samples_per_side, double max_reasonable_deg) {
+bool align_to_goal_dual(pros::Distance& sensor_straight, pros::Distance& sensor_toed, double spacing_in, double toe_angle_deg, bool straight_is_left,int turn_speed, double heading_bias_in, int samples_per_side, double max_reasonable_deg) {
   int groups = samples_per_side / 3;
   if (groups < 1) groups = 1;
 
