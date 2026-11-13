@@ -6,7 +6,7 @@
 /////
 
 // These are out of 127
-const int DRIVE_SPEED = 110;
+const int DRIVE_SPEED = 90;
 const int TURN_SPEED = 90;
 const int SWING_SPEED = 110;
 
@@ -52,6 +52,7 @@ void default_constants() {
 
 void random_code(){
   int timeout = 0;
+  pros::delay(1000);
 
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);
   
@@ -66,18 +67,18 @@ void random_code(){
   pros::delay(500);
 
   // Score pre-load
-  chassis.pid_odom_set({{{0_in, -7_in}, ez::rev, DRIVE_SPEED},
-                      {{-10_in, -7_in, 89_deg}, ez::rev, DRIVE_SPEED}});
+  chassis.pid_odom_set({{{0_in, -6.5_in}, ez::rev, 90},
+                      {{-10_in, -6.5_in, 90_deg}, ez::rev, 90}});
   chassis.pid_wait_until_index(0);
-  wrist.move_absolute(1100, 127); // Leveled out to score on flat side
+  wrist.move_absolute(1100, 127); // Leveled out to score on flat side (975)
   chassis.pid_wait();
   pros::delay(100);
   claw.move(-60);
   pros::delay(350);
-  chassis.pid_drive_set(5_in, 127); // Clear goal to be able to turn
-  chassis.pid_wait();
+  //chassis.pid_drive_set(5_in, 127); // Clear goal to be able to turn
+  //chassis.pid_wait();
   claw.move(0);
-    
+  
   // Pick up pincup 1
   wrist.move_absolute(1800, 127); // Set wrist high
   chassis.pid_odom_set({{{0_in, -8_in}, ez::fwd, DRIVE_SPEED},
@@ -88,6 +89,7 @@ void random_code(){
   pros::delay(800);
   claw.move(60);
   pros::delay(200);
+  wrist.move_absolute(0,127);
   wrist.move_absolute(1630, 127); // Lift pincup off ground
   lift.move_absolute(700, 127); // Lift lift to clear the stack
   chassis.pid_odom_set({{{-14.5_in, -20.5_in, 150_deg}, ez::rev, DRIVE_SPEED},

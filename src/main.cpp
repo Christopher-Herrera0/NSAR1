@@ -312,7 +312,7 @@ void opcontrol() {
       }
       else {
         intake.move(0);
-        claw.move(0);
+        claw.move(63.7);
       }
     }
 
