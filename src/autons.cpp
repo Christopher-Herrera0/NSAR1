@@ -197,16 +197,17 @@ void proto_skills_auton() {
 
   uint32_t t_lift = pros::millis();
   lift.move(-127);
+  pros::delay(150);
+  lift.move(0);
+
   chassis.pid_drive_set(10_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-  wait_until_ms(t_lift, 150);
-  lift.move(0);
   claw.move(0);
+
+  lift.move_absolute(0, 127);
   
   chassis.pid_turn_set(120_deg, TURN_SPEED);
   chassis.pid_wait();
- 
-  lift.move_absolute(0, 127);
 
   pros::delay(300);
  
