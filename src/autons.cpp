@@ -66,6 +66,8 @@ void random_code(){
   chassis.pid_drive_set(8_in, 127);
   pros::delay(500);
 
+
+
   // Score pre-load
   chassis.pid_odom_set({{{0_in, -6.5_in}, ez::rev, 90},
                       {{-10_in, -6.5_in, 90_deg}, ez::rev, 90}});
